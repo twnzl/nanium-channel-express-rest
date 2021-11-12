@@ -1,16 +1,22 @@
 {
   "name": "nanium-channel-express-rest",
-  "version": "0.10.0",
+  "version": "0.1.0",
   "description": "a nanium request channel based on express using multiple REST-style endpoints",
   "main": "index.js",
   "scripts": {
-    "test": "echo \\\"Error: no testservices specified\\\" && exit 1"
+    "build": "tsc",
+    "test": "jest",
+    "bundle": "npx nanium rm dist && npm run build && npx cp package.json dist && cp README.md dist && npm publish ./dist"
   },
   "keywords": [
     "nanium",
     "channel",
     "express",
     "REST"
+  ],
+  "files": [
+    "index.js",
+    "index.d.ts"
   ],
   "author": "Tobias Wenzel",
   "license": "MIT",
