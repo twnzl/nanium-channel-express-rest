@@ -30,7 +30,7 @@ export class TestHelper {
 					executionContextConstructor: Object
 				})
 			],
-			requestInterceptors: { test: TestServerRequestInterceptor },
+			requestInterceptors: [ TestServerRequestInterceptor ],
 			isResponsible: async (): Promise<KindOfResponsibility> => Promise.resolve('yes'),
 			handleError: async (err: any): Promise<any> => {
 				throw err;
