@@ -1,21 +1,22 @@
 import * as express from 'express';
-import { RequestChannelConfig } from 'nanium/interfaces/requestChannelConfig';
-import { RequestChannel } from 'nanium/interfaces/requestChannel';
 import { NaniumRepository } from 'nanium/interfaces/serviceRepository';
 import { NaniumJsonSerializer } from 'nanium/serializers/json';
 import { Nanium } from 'nanium/core';
 import { LogMode } from 'nanium/interfaces/logMode';
 import { NaniumSerializerCore } from 'nanium/serializers/core';
 import { Observable } from 'rxjs';
+import { Channel } from 'nanium/interfaces/channel';
+import { ChannelConfig } from 'nanium/interfaces/channelConfig';
+import { EventSubscription } from 'nanium/interfaces/eventSubscriptionInterceptor';
 
-export interface NaniumExpressRestChannelConfig extends RequestChannelConfig {
+export interface NaniumExpressRestChannelConfig extends ChannelConfig {
 	expressApp: express.Express;
 	apiBasePath?: string;
 	getHttpStatusCode?: (err: any) => number;
 }
 
 
-export class NaniumExpressRestChannel implements RequestChannel {
+export class NaniumExpressRestChannel implements Channel {
 	private config: NaniumExpressRestChannelConfig;
 
 	constructor(config: NaniumExpressRestChannelConfig) {
@@ -35,6 +36,8 @@ export class NaniumExpressRestChannel implements RequestChannel {
 		}
 		config.serializer = config.serializer ?? new NaniumJsonSerializer();
 	}
+
+	eventSubscriptions: { [eventName: string]: EventSubscription<any>[]; };
 
 	async init(serviceRepository: NaniumRepository): Promise<void> {
 		for (const key in serviceRepository) {
@@ -156,5 +159,9 @@ export class NaniumExpressRestChannel implements RequestChannel {
 		request['$$rawBody'] = req['$$rawBody'];
 		request['$$requestSource'] = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 		return NaniumSerializerCore.plainToClass(request, requestConstructor);
+	}
+
+	emitEvent(_event: any, _subscription: EventSubscription<any>): Promise<void> {
+		throw new Error('Method not implemented.');
 	}
 }
