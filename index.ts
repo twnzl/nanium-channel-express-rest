@@ -7,7 +7,7 @@ import { NaniumSerializerCore } from 'nanium/serializers/core';
 import { Observable } from 'rxjs';
 import { Channel } from 'nanium/interfaces/channel';
 import { ChannelConfig } from 'nanium/interfaces/channelConfig';
-import { EventSubscription } from 'nanium/interfaces/eventSubscriptionInterceptor';
+import { EventSubscription } from 'nanium/interfaces/eventSubscription';
 
 export interface NaniumExpressRestChannelConfig extends ChannelConfig {
 	expressApp: express.Express;
